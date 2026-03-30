@@ -2,13 +2,18 @@
 # @Author :JiaWeiHao
 # @File : 02_image.py
 # @Software: Pycharm
+import os
 
 # 实例网站 https://ssr1.scrape.center/
+
 import requests
 
-def get_one_image():
-    # url = "https://ssr1.scrape.center"
-    url = "https://p1.meituan.net/movie/6bea9af4524dfbd0b668eaa7e187c3df767253.jpg@464w_644h_1e_1c"
+from 提取图片URL import getURLS
+
+
+def get_one_image(url,name):
+    if not os.path.exists("图片"):
+        os.makedirs("图片")
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
@@ -16,10 +21,28 @@ def get_one_image():
 
     res = requests.get(url , headers = headers)
 
-    print(res)  # 获取response对象
+    file_path = os.path.join("图片", f"{name}.jpg")
 
-    with open("test.jpg", "wb") as f:
+    with open(file_path, "wb") as f:
         f.write(res.content) # 获取二进制数据用content、获取文本数据用text
 
+# url = f"https://ssr1.scrape.center/"
+#
+# urls = getURLS(url)
+#
+# for index,img in enumerate(urls):
+# get_one_image(img,index)
 
-def get_iamges(url):
+def get_many_images(url_path,start,end):
+     for pageNum in range(start,end+1):
+         page_url = url_path.format(pageNum)
+
+         urls = getURLS(page_url)
+
+         for index, url in enumerate(urls):
+             get_one_image(url,f"{pageNum}_{index}.jpg")
+
+url = "https://ssr1.scrape.center/page/{}"
+get_many_images(url,1,10)
+
+
