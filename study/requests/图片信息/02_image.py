@@ -12,8 +12,8 @@ from 提取图片URL import getURLS
 
 
 def get_one_image(url,name):
-    if not os.path.exists("图片"):
-        os.makedirs("图片")
+    if not os.path.exists("../../图片"):
+        os.makedirs("../../图片")
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
@@ -21,7 +21,7 @@ def get_one_image(url,name):
 
     res = requests.get(url , headers = headers)
 
-    file_path = os.path.join("图片", f"{name}.jpg")
+    file_path = os.path.join("../../图片", f"{name}.jpg")
 
     with open(file_path, "wb") as f:
         f.write(res.content) # 获取二进制数据用content、获取文本数据用text
